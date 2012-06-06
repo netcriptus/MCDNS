@@ -17,6 +17,9 @@ set topo [new Topography]
 
 ######## Applying parameters to node ########
 
+# For some reason, this is now required for wireless
+set channel_1 [new $val(channel)]
+
 $ns_ node-config -adhocRouting $val(routing) \
                  -llType $val(link_layer) \
                  -ifqType $val(queue) \
@@ -24,7 +27,7 @@ $ns_ node-config -adhocRouting $val(routing) \
                  -antType $val(antenna) \
                  -propType $val(propagation) \
                  -phyType $val(net_interface) \
-                 -channelType $val(channel) \
+                 -channel $channel_1 \
                  -macType $val(mac) \
                  -topoInstance $topo \
                  -agentTrace ON \
@@ -33,4 +36,7 @@ $ns_ node-config -adhocRouting $val(routing) \
                  -movementTrace OFF
                 
 $topo load_flatgrid $val(x) $val(y)
-create-god $val(mobile_nodes)
+set god_ [create-god $val(mobile_nodes)]
+
+######### Setting transmission range to 250 m ########
+set RXThresh_ 3.65262e-10

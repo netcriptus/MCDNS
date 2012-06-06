@@ -12,3 +12,18 @@ for {set i 0} {$i < $val(mobile_nodes)} {incr i} {
 }
 
 source movements.tcl
+
+
+proc finish {} {
+    global ns_ trace
+    
+    $ns_ flush-trace
+    close $trace
+
+    exit 0
+
+}
+
+
+$ns_ at 160.0 "finish"
+$ns_ run
