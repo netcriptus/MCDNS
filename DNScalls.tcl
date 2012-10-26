@@ -1,11 +1,13 @@
 proc send_packet {src targ} {
   global ns_
-  global sink sender
+  global sink sender cbr_
 
   $ns_ attach-agent $src $sender
+  $cbr_ attach-agent $sender
   $ns_ attach-agent $targ $sink
+  $ns_ connect $sender $sink
   
-  $sender start
+  $cbr_ start
 
 }
 
@@ -14,7 +16,6 @@ proc start_name_server {} {
   global val
   global node_
   global table
-  
   for {set i 0} {$i < $val(mobile_nodes)} {incr i} {
     send_packet $NS_pointer $node_($i)
     set table($i) 1
